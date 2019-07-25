@@ -16,8 +16,7 @@ export default {
 <style>
 .card {
   height: auto;
-  width: 42%;
-  min-width: 375px;
+  width: 80%;
   padding: 20px;
   margin: 12px;
   background-color: whitesmoke;

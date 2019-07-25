@@ -1,23 +1,20 @@
 <template>
   <div id="app">
     <div class="quote-list">
-      <QuoteItem v-for="quote in paginatedQuotes" :quote="quote" :key="quote.quote" />
+      <QuoteItem v-for="quote in paginatedQuotes" :quote="quote" :key="quote.id" />
     </div>
-
-    <!-- <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />-->
+    <button @click="prevPage()" class="float prev" v-show="pageNumber !== 0">Page -</button>
+    <button @click="nextPage()" class="float next" v-show="pageNumber < pageCount -1">Page +</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
 import QuoteItem from "./components/QuoteItem.vue";
 import axios from "axios";
 
 export default {
   name: "app",
   components: {
-    HelloWorld,
     QuoteItem
   },
   data() {
@@ -41,7 +38,6 @@ export default {
     paginatedQuotes() {
       const first = this.pageNumber * this.quotesPerPage;
       const last = first + this.quotesPerPage;
-
       return this.quotes.slice(first, last);
     }
   },
@@ -52,9 +48,21 @@ export default {
       axios
         .get(url)
         .then(res => {
-          this.quotes = res.data;
+          let id = 1;
+          const quoteResults = res.data;
+          quoteResults.map(quote => {
+            quote.id = id;
+            id++;
+          });
+          this.quotes = quoteResults;
         })
         .catch(err => console.console.error(err));
+    },
+    prevPage() {
+      this.pageNumber--;
+    },
+    nextPage() {
+      this.pageNumber++;
     }
   }
 };
@@ -76,5 +84,20 @@ export default {
   justify-content: center;
   margin: auto;
   max-width: 1000px;
+}
+.float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  background-color: rgba(0, 88, 204, 0.534);
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+}
+.prev {
+  left: 40px;
 }
 </style>
