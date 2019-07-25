@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <header>Quotes App</header>
     <div class="quote-list">
       <QuoteItem v-for="quote in paginatedQuotes" :quote="quote" :key="quote.id" />
     </div>
@@ -60,9 +61,11 @@ export default {
     },
     prevPage() {
       this.pageNumber--;
+      window.scrollTo(0, 0);
     },
     nextPage() {
       this.pageNumber++;
+      window.scrollTo(0, 0);
     }
   }
 };
@@ -77,6 +80,20 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
   width: 100%;
+}
+header {
+  position: fixed;
+  color: #fff;
+  background-color: rgba(0, 88, 204, 0.534);
+  top: 0;
+  width: 100%;
+  height: 60px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 20px;
+  margin-left: -8px;
+  margin-right: 8px;
 }
 .quote-list {
   display: flex;
