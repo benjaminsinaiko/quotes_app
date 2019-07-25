@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <QuoteItem v-for="quote in paginatedQuotes" :quote="quote" :key="quote.quote" />
+    <div class="quote-list">
+      <QuoteItem v-for="quote in paginatedQuotes" :quote="quote" :key="quote.quote" />
+    </div>
 
     <!-- <img alt="Vue logo" src="./assets/logo.png" />
     <HelloWorld msg="Welcome to Your Vue.js App" />-->
@@ -18,7 +20,7 @@ export default {
     HelloWorld,
     QuoteItem
   },
-  data: function() {
+  data() {
     return {
       quotes: [],
       pageNumber: 0,
@@ -26,14 +28,8 @@ export default {
       displayQuotes: []
     };
   },
-  mounted: function() {
-    axios
-      .get(
-        "https://gist.githubusercontent.com/benchprep/dffc3bffa9704626aa8832a3b4de5b27/raw/quotes.json"
-      )
-      .then(res => {
-        this.quotes = res.data;
-      });
+  mounted() {
+    this.getQuotes();
   },
   computed: {
     // count num pages
@@ -48,6 +44,18 @@ export default {
 
       return this.quotes.slice(first, last);
     }
+  },
+  methods: {
+    getQuotes() {
+      const url =
+        "https://gist.githubusercontent.com/benchprep/dffc3bffa9704626aa8832a3b4de5b27/raw/quotes.json";
+      axios
+        .get(url)
+        .then(res => {
+          this.quotes = res.data;
+        })
+        .catch(err => console.console.error(err));
+    }
   }
 };
 </script>
@@ -60,5 +68,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  width: 100%;
+}
+.quote-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+  max-width: 1000px;
 }
 </style>
