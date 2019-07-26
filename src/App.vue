@@ -30,13 +30,26 @@ export default {
       quoteCategory: "all"
     };
   },
+  watch: {
+    // update displayQuotes and reset to page 0
+    quoteCategory: function() {
+      if (this.quoteCategory === "all") {
+        this.displayQuotes = this.quotes;
+      } else {
+        this.displayQuotes = this.quotes.filter(
+          quote => quote.theme === this.quoteCategory
+        );
+      }
+      return (this.pageNumber = 0);
+    }
+  },
   mounted() {
     this.getQuotes();
   },
   computed: {
     // count num pages
     pageCount() {
-      const numQuotes = this.quotes.length;
+      const numQuotes = this.displayQuotes.length;
       return Math.ceil(numQuotes / this.quotesPerPage);
     },
     // quotes to display
@@ -115,7 +128,7 @@ header {
   width: 60px;
   height: 60px;
   bottom: 40px;
-  right: 40px;
+  right: 25px;
   background-color: rgba(0, 88, 204, 0.534);
   color: #fff;
   border-radius: 50px;
@@ -123,6 +136,6 @@ header {
   box-shadow: 2px 2px 3px #999;
 }
 .prev {
-  left: 40px;
+  left: 25px;
 }
 </style>

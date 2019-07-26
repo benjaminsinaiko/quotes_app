@@ -31,7 +31,6 @@ export default {
 .category-select select {
   width: 100px;
   height: 30px;
-
   text-align-last: center;
   text-transform: uppercase;
 }
