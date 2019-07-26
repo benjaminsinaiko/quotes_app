@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <header>Quotes App</header>
+    <CategorySelector :quoteCategory="quoteCategory" @setCategory="setCategory" />
     <div class="quote-list">
       <QuoteItem v-for="quote in paginatedQuotes" :quote="quote" :key="quote.id" />
     </div>
@@ -10,12 +11,14 @@
 </template>
 
 <script>
-import QuoteItem from "./components/QuoteItem.vue";
 import axios from "axios";
+import CategorySelector from "./components/CategorySelector.vue";
+import QuoteItem from "./components/QuoteItem.vue";
 
 export default {
   name: "app",
   components: {
+    CategorySelector,
     QuoteItem
   },
   data() {
@@ -23,7 +26,8 @@ export default {
       quotes: [],
       pageNumber: 0,
       quotesPerPage: 10,
-      displayQuotes: []
+      displayQuotes: [],
+      quoteCategory: "all"
     };
   },
   mounted() {
@@ -39,7 +43,7 @@ export default {
     paginatedQuotes() {
       const first = this.pageNumber * this.quotesPerPage;
       const last = first + this.quotesPerPage;
-      return this.quotes.slice(first, last);
+      return this.displayQuotes.slice(first, last);
     }
   },
   methods: {
@@ -56,8 +60,12 @@ export default {
             id++;
           });
           this.quotes = quoteResults;
+          this.displayQuotes = quoteResults;
         })
         .catch(err => console.console.error(err));
+    },
+    setCategory(category) {
+      this.quoteCategory = category;
     },
     prevPage() {
       this.pageNumber--;
