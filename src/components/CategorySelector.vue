@@ -3,7 +3,7 @@
     <form>
       <p class="select-title">Quotes Category</p>
       <select v-model="category" @change="emitSelect" aria-placeholder="category">
-        <!-- <option :value="undefined">Select Category</option> -->
+        <option :value="undefined">Select Category</option>
         <option v-for="category in categories" :selected="category" :key="category">{{ category }}</option>
       </select>
     </form>
@@ -19,6 +19,11 @@ export default {
       categories: ["all", "movies", "games"],
       category: this.quoteCategory
     };
+  },
+  watch: {
+    quoteCategory() {
+      this.category = this.quoteCategory;
+    }
   },
   methods: {
     emitSelect(e) {

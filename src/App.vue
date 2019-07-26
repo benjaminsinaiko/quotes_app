@@ -3,8 +3,9 @@
     <header>Quotes App</header>
     <div class="filters">
       <CategorySelector :quoteCategory="quoteCategory" @setCategory="setCategory" />
-      <QuoteSearch />
+      <QuoteSearch :quoteQuery="quoteQuery" @setQuery="setQuery" />
     </div>
+    <h4 v-if="displayQuotes.length === 0">No matching quotes...</h4>
     <div class="quote-list">
       <QuoteItem v-for="quote in paginatedQuotes" :quote="quote" :key="quote.id" />
     </div>
@@ -32,12 +33,14 @@ export default {
       pageNumber: 0,
       quotesPerPage: 10,
       displayQuotes: [],
-      quoteCategory: "all"
+      quoteCategory: "all",
+      quoteQuery: ""
     };
   },
   watch: {
     // update displayQuotes and reset to page 0
-    quoteCategory: function() {
+    quoteCategory() {
+      this.quoteQuery = "";
       if (this.quoteCategory === "all") {
         this.displayQuotes = this.quotes;
       } else {
@@ -45,7 +48,18 @@ export default {
           quote => quote.theme === this.quoteCategory
         );
       }
-      return (this.pageNumber = 0);
+      this.pageNumber = 0;
+    },
+    quoteQuery() {
+      if (this.quoteQuery !== "") {
+        this.quoteCategory = undefined;
+      }
+      const filteredQuotes = this.quotes.filter(quote => {
+        return quote.quote
+          .toLowerCase()
+          .includes(this.quoteQuery.toLowerCase());
+      });
+      this.displayQuotes = filteredQuotes;
     }
   },
   mounted() {
@@ -84,6 +98,9 @@ export default {
     },
     setCategory(category) {
       this.quoteCategory = category;
+    },
+    setQuery(query) {
+      this.quoteQuery = query;
     },
     prevPage() {
       this.pageNumber--;
