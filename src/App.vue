@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <header>Quotes App</header>
-    <CategorySelector :quoteCategory="quoteCategory" @setCategory="setCategory" />
+    <div class="filters">
+      <CategorySelector :quoteCategory="quoteCategory" @setCategory="setCategory" />
+      <QuoteSearch />
+    </div>
     <div class="quote-list">
       <QuoteItem v-for="quote in paginatedQuotes" :quote="quote" :key="quote.id" />
     </div>
@@ -13,12 +16,14 @@
 <script>
 import axios from "axios";
 import CategorySelector from "./components/CategorySelector.vue";
+import QuoteSearch from "./components/QuoteSearch.vue";
 import QuoteItem from "./components/QuoteItem.vue";
 
 export default {
   name: "app",
   components: {
     CategorySelector,
+    QuoteSearch,
     QuoteItem
   },
   data() {
@@ -115,6 +120,12 @@ header {
   padding-left: 20px;
   margin-left: -8px;
   margin-right: 8px;
+}
+.filters {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 .quote-list {
   display: flex;

@@ -1,12 +1,13 @@
 <template>
-  <section class="category-select">
-    <h5 class="select-title">Quotes Category</h5>
+  <div class="category-select">
     <form>
-      <select v-model="category" @change="emitSelect">
+      <p class="select-title">Quotes Category</p>
+      <select v-model="category" @change="emitSelect" aria-placeholder="category">
+        <!-- <option :value="undefined">Select Category</option> -->
         <option v-for="category in categories" :selected="category" :key="category">{{ category }}</option>
       </select>
     </form>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -28,14 +29,16 @@ export default {
 </script>
 
 <style scoped>
-.category-select select {
-  width: 100px;
+.category-select {
+  margin-right: 50px;
+}
+select {
+  width: 130px;
   height: 30px;
   text-align-last: center;
   text-transform: uppercase;
 }
-h5 {
-  margin-top: 70px;
+p {
   margin-bottom: 5px;
 }
 </style>
