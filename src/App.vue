@@ -127,7 +127,7 @@ export default {
 header {
   position: fixed;
   color: #fff;
-  background-color: rgba(0, 88, 204, 0.534);
+  background-color: rgb(61, 144, 252);
   top: 0;
   width: 100%;
   height: 60px;
@@ -157,7 +157,7 @@ header {
   height: 60px;
   bottom: 40px;
   right: 25px;
-  background-color: rgba(0, 88, 204, 0.534);
+  background-color: rgb(61, 144, 252);
   color: #fff;
   border-radius: 50px;
   text-align: center;

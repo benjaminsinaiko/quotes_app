@@ -2,7 +2,12 @@
   <div class="category-select">
     <form>
       <p class="select-title">Quotes Category</p>
-      <select v-model="category" @change="emitSelect" aria-placeholder="category">
+      <select
+        v-model="category"
+        @change="emitSelect"
+        aria-placeholder="category"
+        :class="{games: category === 'games', movies: category === 'movies'}"
+      >
         <option :value="undefined">Select Category</option>
         <option v-for="category in categories" :selected="category" :key="category">{{ category }}</option>
       </select>
@@ -45,5 +50,11 @@ select {
 }
 p {
   margin-bottom: 5px;
+}
+.movies {
+  background-color: #d9ffe4;
+}
+.games {
+  background-color: #fffdd9;
 }
 </style>
